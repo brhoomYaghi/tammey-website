@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>مقال | طمي Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden;line-height:1.7}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#6EC1E4;border-radius:10px}
+:root{--teal:#6EC1E4;--td:#3a8fb5;--tl:#e8f6fc;--brn:#7d5730;--bd:#5e3f20;--bl:#f5efe6;--cr:#faf8f5;--wh:#fff;--dk:#0f1f14;--tx:#2c2c2c;--mt:#6b7280;--br:#e5e7eb;--sh:0 4px 24px rgba(0,0,0,.08)}
+.en{display:none}.ar{display:block}
+span.ar{display:inline}span.en{display:none}
+[data-lang="en"] .ar{display:none}[data-lang="en"] .en{display:block}
+[data-lang="en"] span.ar{display:none}[data-lang="en"] span.en{display:inline}
+.wrap{max-width:820px;margin:0 auto;padding:0 28px}
+.wrap-wide{max-width:1180px;margin:0 auto;padding:0 28px}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 0;background:rgba(250,248,245,.97);backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(0,0,0,.07)}
+.nv{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.n-logo img{height:46px}
+.n-r{display:flex;align-items:center;gap:12px}
+.lang-sw{display:flex;align-items:center;gap:2px;background:var(--tl);border:1.5px solid rgba(110,193,228,.3);border-radius:50px;padding:3px}
+.lb{padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;color:var(--mt);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.lb.act{background:var(--teal);color:#fff!important}
+.back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--td);font-size:.88rem;font-weight:700;text-decoration:none;padding:8px 18px;border-radius:50px;border:1.5px solid var(--teal);background:transparent;transition:all .3s;cursor:pointer;font-family:inherit}
+.back-btn:hover{background:var(--tl)}
+/* POST HEADER */
+#post-header{padding:130px 0 50px;background:linear-gradient(135deg,var(--tl),var(--bl))}
+.ph-inner{position:relative}
+.ph-cat{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;color:#fff;padding:5px 14px;border-radius:50px;margin-bottom:18px}
+.ph-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--dk);line-height:1.25;margin-bottom:18px}
+.ph-meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.84rem;color:var(--mt);margin-bottom:32px;align-items:center}
+.ph-meta span{display:flex;align-items:center;gap:6px}
+.ph-author{display:flex;align-items:center;gap:12px;margin-top:8px}
+.ph-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--teal)}
+.ph-author-info .name{font-weight:700;color:var(--dk);font-size:.9rem}
+.ph-author-info .title{font-size:.78rem;color:var(--mt)}
+/* COVER IMAGE */
+#cover-section{margin:-1px 0 0}
+.cover-img-wrap{position:relative;max-height:480px;overflow:hidden}
+.cover-img-wrap img{width:100%;height:480px;object-fit:cover;display:block}
+.cover-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--cr) 100%)}
+/* ARTICLE BODY */
+#article-body{padding:50px 0 80px}
+.post-body{font-size:1.05rem;line-height:1.95;color:var(--tx)}
+.post-body h2{font-size:1.55rem;font-weight:800;color:var(--dk);margin:40px 0 16px}
+.post-body h3{font-size:1.22rem;font-weight:700;color:var(--dk);margin:32px 0 12px}
+.post-body p{margin-bottom:22px}
+.post-body ul,.post-body ol{padding-inline-start:24px;margin-bottom:22px}
+.post-body li{margin-bottom:8px}
+.post-body blockquote{border-inline-start:4px solid var(--teal);background:var(--tl);padding:18px 24px;border-radius:0 12px 12px 0;margin:28px 0;font-style:italic;color:var(--td)}
+.post-body img{width:100%;border-radius:16px;margin:28px 0;box-shadow:var(--sh)}
+.post-body a{color:var(--td);text-decoration:underline}
+.post-body strong{font-weight:700;color:var(--dk)}
+/* TAGS */
+.post-tags{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0}
+.tag-chip{display:inline-flex;align-items:center;gap:6px;background:var(--tl);color:var(--td);font-size:.78rem;font-weight:600;padding:5px 14px;border-radius:50px;border:1px solid rgba(110,193,228,.3)}
+/* SHARE */
+.share-bar{border-top:1px solid var(--br);border-bottom:1px solid var(--br);padding:20px 0;margin:40px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.share-bar span{font-weight:700;font-size:.9rem;color:var(--dk)}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;border:1.5px solid var(--br);background:#fff;font-size:.82rem;font-weight:600;color:var(--tx);cursor:pointer;text-decoration:none;transition:all .25s;font-family:inherit}
+.share-btn:hover{border-color:var(--teal);color:var(--td);transform:translateY(-2px)}
+/* RELATED */
+#related-section{padding:20px 0 80px;background:var(--wh)}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
+.rel-card{background:var(--cr);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s,box-shadow .3s;box-shadow:var(--sh)}
+.rel-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.1)}
+.rel-img{aspect-ratio:16/9;overflow:hidden;background:var(--tl)}
+.rel-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.rel-card:hover .rel-img img{transform:scale(1.05)}
+.rel-body{padding:16px 18px}
+.rel-body .cat{font-size:.7rem;font-weight:700;color:var(--td);margin-bottom:6px}
+.rel-body h4{font-size:.9rem;font-weight:700;color:var(--dk);line-height:1.4}
+/* NOT FOUND */
+.not-found{text-align:center;padding:160px 20px;color:var(--mt)}
+.not-found h2{font-size:2rem;font-weight:800;color:var(--dk);margin-bottom:16px}
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:8px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* FOOTER */
+footer{background:var(--dk);color:rgba(255,255,255,.7);padding:40px 0 24px;text-align:center;font-size:.84rem}
+footer a{color:var(--teal);text-decoration:none}
+@media(max-width:768px){.related-grid{grid-template-columns:1fr 1fr}.ph-title{font-size:1.7rem}}
+@media(max-width:500px){.related-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap-wide nv">
+    <a href="index.html" class="n-logo"><img src="Logo Tammey.png" alt="Tammey"/></a>
+    <div class="n-r">
+      <a href="blog.html" class="back-btn">
+        <span class="ar">← المدونة</span><span class="en">← Blog</span>
+      </a>
+      <div class="lang-sw">
+        <button class="lb" id="btn-ar" onclick="setLang('ar')">AR</button>
+        <button class="lb" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- POST HEADER -->
+<section id="post-header">
+  <div class="wrap">
+    <div id="ph-content">
+      <!-- Skeleton -->
+      <div class="skeleton" style="height:24px;width:100px;margin-bottom:18px;border-radius:50px"></div>
+      <div class="skeleton" style="height:48px;margin-bottom:12px"></div>
+      <div class="skeleton" style="height:36px;width:70%;margin-bottom:24px"></div>
+      <div class="skeleton" style="height:16px;width:200px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COVER IMAGE -->
+<section id="cover-section">
+  <div class="cover-img-wrap" id="cover-wrap" style="display:none">
+    <img id="cover-img" src="" alt=""/>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<section id="article-body">
+  <div class="wrap">
+    <div id="body-content">
+      <div class="skeleton" style="height:16px;margin-bottom:12px"></div>
+      <div class="skeleton" style="height:16px;margin-bottom:12px;width:90%"></div>
+      <div class="skeleton" style="height:16px;margin-bottom:12px;width:80%"></div>
+      <div class="skeleton" style="height:16px;margin-bottom:12px"></div>
+      <div class="skeleton" style="height:16px;width:60%"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED POSTS -->
+<section id="related-section" style="display:none">
+  <div class="wrap-wide">
+    <h3 style="font-size:1.3rem;font-weight:800;color:var(--dk)">
+      <span class="ar">مقالات ذات صلة</span><span class="en">Related Articles</span>
+    </h3>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <span class="ar">طمي. جميع الحقوق محفوظة.</span><span class="en">Tammey. All rights reserved.</span>
+  — <a href="index.html"><span class="ar">الصفحة الرئيسية</span><span class="en">Home</span></a>
+  | <a href="blog.html"><span class="ar">المدونة</span><span class="en">Blog</span></a></p>
+</footer>
+
+<script>
+const API_BASE = 'http://localhost:3001/api';
+
+/* ── LANGUAGE ─────────────────────────────────────── */
+function setLang(lang) {
+  const html = document.documentElement;
+  html.setAttribute('data-lang', lang);
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('btn-ar').classList.toggle('act', lang === 'ar');
+  document.getElementById('btn-en').classList.toggle('act', lang === 'en');
+  localStorage.setItem('tammey-lang', lang);
+  if (window._post) renderPost(window._post); // re-render in new lang
+}
+(function(){ setLang(localStorage.getItem('tammey-lang') || 'ar'); })();
+
+function lang() { return document.documentElement.getAttribute('data-lang') || 'ar'; }
+function t(ar, en) { return lang() === 'ar' ? ar : (en || ar); }
+
+function formatDate(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString(lang()==='ar'?'ar-JO':'en-GB',{year:'numeric',month:'long',day:'numeric'});
+}
+
+/* ── SLUG FROM URL ────────────────────────────────── */
+const slug = new URLSearchParams(location.search).get('slug');
+
+/* ── RENDER POST ──────────────────────────────────── */
+function renderPost(post) {
+  window._post = post;
+  const l = lang();
+  const title   = l==='ar' ? post.title_ar   : (post.title_en   || post.title_ar);
+  const excerpt = l==='ar' ? post.excerpt_ar  : (post.excerpt_en || post.excerpt_ar || '');
+  const body    = l==='ar' ? post.body_ar     : (post.body_en    || post.body_ar);
+  const author  = l==='ar' ? post.author_ar   : (post.author_en  || post.author_ar);
+  const atitle  = l==='ar' ? post.author_title_ar : (post.author_title_en || post.author_title_ar || '');
+  const catName = l==='ar' ? post.category_ar : post.category_en;
+
+  document.title = `${title} | طمي`;
+
+  // Header
+  document.getElementById('ph-content').innerHTML = `
+    <span class="ph-cat" style="background:${post.category_color||'#6EC1E4'}">${catName}</span>
+    <h1 class="ph-title">${title}</h1>
+    <div class="ph-meta">
+      <span>📅 ${formatDate(post.published_at)}</span>
+      <span>⏱ ${post.read_time_min} ${l==='ar'?'دقيقة':'min read'}</span>
+    </div>
+    ${author ? `<div class="ph-author">
+      ${post.author_avatar ? `<img src="${post.author_avatar}" class="ph-avatar" alt="${author}"/>` : ''}
+      <div class="ph-author-info">
+        <div class="name">${author}</div>
+        ${atitle ? `<div class="title">${atitle}</div>` : ''}
+      </div>
+    </div>` : ''}`;
+
+  // Cover image
+  if (post.cover_image) {
+    const cw = document.getElementById('cover-wrap');
+    document.getElementById('cover-img').src = post.cover_image;
+    document.getElementById('cover-img').alt = title;
+    cw.style.display = 'block';
+  }
+
+  // Body
+  const tagsHtml = post.tags?.length
+    ? `<div class="post-tags">${post.tags.map(tg=>`<span class="tag-chip"># ${l==='ar'?tg.name_ar:tg.name_en}</span>`).join('')}</div>`
+    : '';
+
+  const shareUrl = encodeURIComponent(location.href);
+  const shareTitle = encodeURIComponent(title);
+
+  document.getElementById('body-content').innerHTML = `
+    <div class="post-body">${body}</div>
+    ${tagsHtml}
+    <div class="share-bar">
+      <span>${l==='ar'?'شارك:':'Share:'}</span>
+      <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank">
+        📘 Facebook
+      </a>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank">
+        🐦 Twitter
+      </a>
+      <a class="share-btn" href="https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}" target="_blank">
+        💬 WhatsApp
+      </a>
+      <button class="share-btn" onclick="navigator.clipboard?.writeText(location.href);this.textContent='✓ ${l==='ar'?'تم النسخ':'Copied'}'">
+        🔗 ${l==='ar'?'نسخ الرابط':'Copy Link'}
+      </button>
+    </div>`;
+}
+
+/* ── RENDER RELATED ───────────────────────────────── */
+function renderRelated(posts) {
+  const l = lang();
+  if (!posts.length) return;
+  document.getElementById('related-section').style.display = 'block';
+  document.getElementById('related-grid').innerHTML = posts.map(p => `
+    <a class="rel-card" href="blog-post.html?slug=${p.slug}">
+      <div class="rel-img"><img src="${p.cover_image||'https://placehold.co/400x225/e8f6fc/3a8fb5?text=Tammey'}" loading="lazy" alt=""/></div>
+      <div class="rel-body">
+        <div class="cat"><span class="ar">${p.category_ar}</span><span class="en">${p.category_en}</span></div>
+        <h4><span class="ar">${p.title_ar}</span><span class="en">${p.title_en||p.title_ar}</span></h4>
+      </div>
+    </a>`).join('');
+}
+
+/* ── LOAD POST ────────────────────────────────────── */
+async function loadPost() {
+  if (!slug) {
+    document.getElementById('ph-content').innerHTML = `<div class="not-found"><h2>Post not found</h2><p><a href="blog.html">← Back to Blog</a></p></div>`;
+    document.getElementById('body-content').innerHTML = '';
+    return;
+  }
+  try {
+    const res  = await fetch(`${API_BASE}/posts/${encodeURIComponent(slug)}`);
+    if (!res.ok) throw new Error('Not found');
+    const post = await res.json();
+    renderPost(post);
+
+    // Load related (same category, excluding this slug)
+    const relRes  = await fetch(`${API_BASE}/posts?category=${post.category_slug}&limit=3`);
+    const relData = await relRes.json();
+    const related = (relData.posts || []).filter(p => p.slug !== slug).slice(0, 3);
+    renderRelated(related);
+  } catch(err) {
+    console.error(err);
+    document.getElementById('ph-content').innerHTML = `
+      <div class="not-found">
+        <h2><span class="ar">لم يُعثر على المقال</span><span class="en">Article not found</span></h2>
+        <p style="margin-top:16px"><a href="blog.html"><span class="ar">← العودة للمدونة</span><span class="en">← Back to Blog</span></a></p>
+      </div>`;
+    document.getElementById('article-body').style.display = 'none';
+  }
+}
+
+loadPost();
+</script>
+</body>
+</html>

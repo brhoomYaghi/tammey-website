@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="مدونة طمي — أفكار وأبحاث وقصص نجاح في تنمية الشباب"/>
+<title>مدونة طمي | Tammey Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden;line-height:1.7}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#6EC1E4;border-radius:10px}
+:root{--teal:#6EC1E4;--td:#3a8fb5;--tl:#e8f6fc;--brn:#7d5730;--bd:#5e3f20;--bl:#f5efe6;--cr:#faf8f5;--wh:#fff;--dk:#0f1f14;--tx:#2c2c2c;--mt:#6b7280;--br:#e5e7eb;--sh:0 4px 24px rgba(0,0,0,.08);--shl:0 12px 48px rgba(0,0,0,.12)}
+/* BILINGUAL */
+.en{display:none}.ar{display:block}
+span.ar{display:inline}span.en{display:none}
+[data-lang="en"] .ar{display:none}[data-lang="en"] .en{display:block}
+[data-lang="en"] span.ar{display:none}[data-lang="en"] span.en{display:inline}
+/* UTILS */
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.stag{display:inline-flex;align-items:center;gap:8px;background:var(--tl);color:var(--td);font-size:.74rem;font-weight:700;letter-spacing:.05em;padding:5px 14px;border-radius:50px;border:1px solid rgba(110,193,228,.25)}
+.stag::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;flex-shrink:0}
+.btn-a{display:inline-flex;align-items:center;gap:9px;background:var(--brn);color:#fff;padding:13px 30px;border-radius:50px;font-weight:700;font-size:.92rem;text-decoration:none;border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.btn-a:hover{background:var(--bd);transform:translateY(-2px);box-shadow:0 8px 28px rgba(125,87,48,.3)}
+.btn-b{display:inline-flex;align-items:center;gap:9px;background:transparent;color:var(--td);padding:11px 26px;border-radius:50px;font-weight:700;font-size:.92rem;text-decoration:none;border:2px solid var(--teal);cursor:pointer;transition:all .3s;font-family:inherit}
+.btn-b:hover{background:var(--teal);color:#fff}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 0;transition:all .4s;background:rgba(250,248,245,.97);backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(0,0,0,.07)}
+.nv{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.n-logo img{height:48px}
+.n-links{display:flex;align-items:center;gap:24px;list-style:none}
+.n-links a{font-size:.88rem;font-weight:600;color:var(--tx);text-decoration:none;transition:color .3s;position:relative}
+.n-links a:not(.nc):hover{color:var(--td)}
+.n-links a:not(.nc)::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;background:var(--teal);border-radius:2px;transform:scaleX(0);transition:transform .3s}
+.n-links a:not(.nc):hover::after{transform:scaleX(1)}
+.nc{background:var(--brn)!important;color:#fff!important;padding:8px 20px!important;border-radius:50px!important;font-weight:700!important;transition:all .3s!important}
+.nc:hover{background:var(--bd)!important;transform:translateY(-2px)!important}
+.nc::after{display:none!important}
+.n-r{display:flex;align-items:center;gap:12px}
+.lang-sw{display:flex;align-items:center;gap:2px;background:var(--tl);border:1.5px solid rgba(110,193,228,.3);border-radius:50px;padding:3px}
+.lb{padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;color:var(--mt);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.lb.act{background:var(--teal);color:#fff!important}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hbg span{width:24px;height:2px;border-radius:2px;background:var(--tx);transition:all .3s}
+/* MOBILE NAV */
+#mob-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:490;background:rgba(250,248,245,.98);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:10px}
+#mob-nav.open{display:flex}
+#mob-nav a{font-size:1.2rem;font-weight:700;color:var(--tx);text-decoration:none;padding:12px 40px;border-radius:50px;transition:all .3s}
+#mob-nav a:hover{background:var(--tl);color:var(--td)}
+.mob-close{position:absolute;top:24px;font-size:1.5rem;cursor:pointer;color:var(--mt);background:none;border:none;font-family:inherit}
+[dir="rtl"] .mob-close{left:24px}[dir="ltr"] .mob-close{right:24px}
+/* BLOG HERO */
+#blog-hero{padding:140px 0 80px;background:linear-gradient(135deg,var(--tl) 0%,var(--bl) 100%);position:relative;overflow:hidden}
+#blog-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(110,193,228,.12) 1px,transparent 1px);background-size:40px 40px}
+.bh-inner{position:relative;z-index:1;text-align:center}
+.bh-inner h1{font-size:clamp(2rem,4.5vw,3.4rem);font-weight:900;color:var(--dk);margin:16px 0 14px}
+.bh-inner h1 span{color:var(--td)}
+.bh-inner p{font-size:1.02rem;color:var(--mt);max-width:520px;margin:0 auto 36px}
+.search-bar{display:flex;align-items:center;gap:0;max-width:480px;margin:0 auto;background:#fff;border-radius:50px;border:2px solid var(--br);overflow:hidden;box-shadow:var(--sh);transition:border-color .3s}
+.search-bar:focus-within{border-color:var(--teal)}
+.search-bar input{flex:1;border:none;outline:none;padding:14px 24px;font-family:inherit;font-size:.95rem;background:transparent;color:var(--tx)}
+.search-bar button{background:var(--teal);color:#fff;border:none;padding:14px 26px;cursor:pointer;font-size:1rem;transition:background .3s}
+.search-bar button:hover{background:var(--td)}
+/* FILTER TABS */
+#filters{padding:32px 0 0;position:sticky;top:72px;z-index:100;background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:16px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{white-space:nowrap;padding:9px 20px;border-radius:50px;border:1.5px solid var(--br);background:#fff;color:var(--mt);font-size:.84rem;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit}
+.tab:hover{border-color:var(--teal);color:var(--td)}
+.tab.act{background:var(--teal);color:#fff;border-color:var(--teal)}
+/* FEATURED POST */
+#featured-wrap{padding:60px 0 20px}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;overflow:hidden;box-shadow:var(--shl);background:#fff;text-decoration:none;color:inherit;transition:transform .35s,box-shadow .35s}
+.featured-card:hover{transform:translateY(-6px);box-shadow:0 24px 64px rgba(0,0,0,.14)}
+.fc-img{position:relative;min-height:340px}
+.fc-img img{width:100%;height:100%;object-fit:cover;display:block}
+.fc-img .fc-badge{position:absolute;top:20px;background:var(--brn);color:#fff;font-size:.72rem;font-weight:700;padding:5px 14px;border-radius:50px}
+[dir="rtl"] .fc-img .fc-badge{right:20px}[dir="ltr"] .fc-img .fc-badge{left:20px}
+.fc-body{padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
+.fc-tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--td);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.fc-tag::before{content:'';width:20px;height:2px;background:var(--teal);display:inline-block}
+.fc-body h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:800;color:var(--dk);line-height:1.3;margin-bottom:14px}
+.fc-body p{font-size:.95rem;color:var(--mt);line-height:1.85;margin-bottom:24px}
+.fc-meta{display:flex;align-items:center;gap:16px;font-size:.8rem;color:var(--mt)}
+.fc-meta span{display:flex;align-items:center;gap:5px}
+/* POSTS GRID */
+#posts-section{padding:20px 0 80px}
+.posts-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
+.posts-hdr h3{font-size:1.15rem;font-weight:700;color:var(--dk)}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+/* POST CARD */
+.post-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.post-card:hover{transform:translateY(-5px);box-shadow:var(--shl)}
+.pc-img{position:relative;aspect-ratio:16/9;background:var(--tl);overflow:hidden}
+.pc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.post-card:hover .pc-img img{transform:scale(1.04)}
+.pc-cat{position:absolute;bottom:14px;font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:50px;color:#fff}
+[dir="rtl"] .pc-cat{right:14px}[dir="ltr"] .pc-cat{left:14px}
+.pc-body{padding:22px 24px;flex:1;display:flex;flex-direction:column}
+.pc-title{font-size:1rem;font-weight:700;color:var(--dk);line-height:1.45;margin-bottom:10px}
+.pc-excerpt{font-size:.86rem;color:var(--mt);line-height:1.75;flex:1;margin-bottom:16px}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:var(--mt)}
+.pc-footer .rd{color:var(--td);font-weight:700}
+/* SKELETON LOADER */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:8px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sk-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);min-height:320px}
+.sk-img{height:160px;margin-bottom:0}.sk-body{padding:22px 24px}
+.sk-t1{height:14px;margin-bottom:8px;width:40%}.sk-t2{height:16px;margin-bottom:10px}.sk-t3{height:14px;width:60%;margin-bottom:8px}.sk-t4{height:12px;width:30%}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:80px 20px;grid-column:1/-1}
+.empty-state .es-icon{font-size:3rem;margin-bottom:16px}
+.empty-state h4{font-size:1.2rem;font-weight:700;color:var(--dk);margin-bottom:8px}
+.empty-state p{font-size:.9rem;color:var(--mt)}
+/* LOAD MORE */
+.load-more-wrap{text-align:center;padding:40px 0 20px}
+/* NEWSLETTER */
+#newsletter{background:linear-gradient(135deg,var(--td),var(--teal));padding:80px 0;margin:0}
+.nl-inner{text-align:center;color:#fff}
+.nl-inner h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;margin-bottom:12px}
+.nl-inner p{font-size:.97rem;opacity:.88;margin-bottom:32px}
+.nl-form{display:flex;gap:0;max-width:440px;margin:0 auto;background:rgba(255,255,255,.15);border-radius:50px;border:1.5px solid rgba(255,255,255,.3);overflow:hidden}
+.nl-form input{flex:1;background:transparent;border:none;outline:none;padding:14px 22px;color:#fff;font-family:inherit;font-size:.92rem}
+.nl-form input::placeholder{color:rgba(255,255,255,.6)}
+.nl-form button{background:#fff;color:var(--td);border:none;padding:14px 24px;border-radius:50px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .3s;margin:3px}
+.nl-form button:hover{background:#fde68a;color:var(--bd)}
+/* FOOTER */
+footer{background:var(--dk);color:rgba(255,255,255,.75);padding:60px 0 24px}
+.ft-g{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.ft-brand p{font-size:.88rem;line-height:1.85;margin-top:14px;max-width:280px}
+.ft-col h4{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:18px}
+.fl{list-style:none}
+.fl li{margin-bottom:10px}
+.fl a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;transition:color .3s}
+.fl a:hover{color:var(--teal)}
+.ft-btm{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;font-size:.8rem}
+.ft-btm a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s}
+.ft-btm a:hover{color:var(--teal)}
+/* RESPONSIVE */
+@media(max-width:1100px){.posts-grid{grid-template-columns:repeat(2,1fr)}.featured-card{grid-template-columns:1fr}}
+@media(max-width:768px){.posts-grid{grid-template-columns:1fr}.featured-card{grid-template-columns:1fr}.fc-img{min-height:220px}.fc-body{padding:28px 24px}.n-links{display:none}.hbg{display:flex}.ft-g{grid-template-columns:1fr 1fr;gap:32px}.ft-btm{flex-direction:column;gap:10px;text-align:center}}
+@media(max-width:480px){.ft-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="wrap nv">
+    <a href="index.html" class="n-logo"><img src="Logo Tammey.png" alt="Tammey"/></a>
+    <ul class="n-links">
+      <li><a href="index.html#about"><span class="ar">عن طمي</span><span class="en">About</span></a></li>
+      <li><a href="index.html#services"><span class="ar">خدماتنا</span><span class="en">Services</span></a></li>
+      <li><a href="index.html#programs"><span class="ar">البرامج</span><span class="en">Programs</span></a></li>
+      <li><a href="index.html#partners"><span class="ar">شركاؤنا</span><span class="en">Partners</span></a></li>
+      <li><a href="blog.html" class="nc"><span class="ar">المدونة</span><span class="en">Blog</span></a></li>
+    </ul>
+    <div class="n-r">
+      <div class="lang-sw">
+        <button class="lb" id="btn-ar" onclick="setLang('ar')">AR</button>
+        <button class="lb" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="hbg" id="hbg" onclick="document.getElementById('mob-nav').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mob-nav">
+  <button class="mob-close" id="mob-close">✕</button>
+  <a href="index.html#about"><span class="ar">عن طمي</span><span class="en">About</span></a>
+  <a href="index.html#services"><span class="ar">خدماتنا</span><span class="en">Services</span></a>
+  <a href="index.html#programs"><span class="ar">البرامج</span><span class="en">Programs</span></a>
+  <a href="index.html#partners"><span class="ar">شركاؤنا</span><span class="en">Partners</span></a>
+  <a href="index.html#contact"><span class="ar">تواصل معنا</span><span class="en">Contact</span></a>
+</div>
+
+<!-- ─── BLOG HERO ─────────────────────────────────────────── -->
+<section id="blog-hero">
+  <div class="wrap bh-inner">
+    <div class="stag"><span class="ar">أفكار وقصص تُلهم</span><span class="en">Ideas & Stories that Inspire</span></div>
+    <h1><span class="ar">مدونة <span>طمي</span></span><span class="en">Tammey <span>Blog</span></span></h1>
+    <p><span class="ar">رؤى وأبحاث وقصص نجاح من ميدان تنمية الشباب والمجتمع في الأردن والعالم العربي.</span><span class="en">Insights, research, and success stories from the field of youth and community development across the Arab world.</span></p>
+    <div class="search-bar">
+      <input type="search" id="search-input" placeholder="ابحث في المدونة... / Search blog..." autocomplete="off"/>
+      <button id="search-btn">🔍</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FILTER TABS ────────────────────────────────────────── -->
+<section id="filters">
+  <div class="wrap">
+    <div class="tabs" id="tabs-wrap">
+      <button class="tab act" data-cat="" onclick="filterCat(this,'')">
+        <span class="ar">الكل</span><span class="en">All</span>
+      </button>
+      <!-- Filled dynamically from API categories -->
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURED POST ─────────────────────────────────────── -->
+<section id="featured-wrap">
+  <div class="wrap">
+    <div id="featured-container"><!-- injected by JS --></div>
+  </div>
+</section>
+
+<!-- ─── POSTS GRID ────────────────────────────────────────── -->
+<section id="posts-section">
+  <div class="wrap">
+    <div class="posts-hdr">
+      <h3 id="posts-count-label">
+        <span class="ar">جميع المقالات</span><span class="en">All Articles</span>
+      </h3>
+    </div>
+    <div class="posts-grid" id="posts-grid">
+      <!-- skeleton -->
+      <div class="sk-card"><div class="sk-img skeleton"></div><div class="sk-body"><div class="sk-t1 skeleton"></div><div class="sk-t2 skeleton"></div><div class="sk-t3 skeleton"></div><div class="sk-t4 skeleton"></div></div></div>
+      <div class="sk-card"><div class="sk-img skeleton"></div><div class="sk-body"><div class="sk-t1 skeleton"></div><div class="sk-t2 skeleton"></div><div class="sk-t3 skeleton"></div><div class="sk-t4 skeleton"></div></div></div>
+      <div class="sk-card"><div class="sk-img skeleton"></div><div class="sk-body"><div class="sk-t1 skeleton"></div><div class="sk-t2 skeleton"></div><div class="sk-t3 skeleton"></div><div class="sk-t4 skeleton"></div></div></div>
+    </div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+      <button class="btn-b" id="load-more-btn" onclick="loadMore()">
+        <span class="ar">تحميل المزيد</span><span class="en">Load More</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NEWSLETTER ────────────────────────────────────────── -->
+<section id="newsletter">
+  <div class="wrap nl-inner">
+    <h2><span class="ar">اشترك في نشرتنا الإخبارية</span><span class="en">Subscribe to Our Newsletter</span></h2>
+    <p><span class="ar">ابقَ على اطلاع بأحدث الأبحاث والمقالات وفرص الشباب</span><span class="en">Stay updated with the latest research, articles, and youth opportunities</span></p>
+    <form class="nl-form" onsubmit="nlSubmit(event)">
+      <input type="email" id="nl-email" placeholder="بريدك الإلكتروني / Your email" required/>
+      <button type="submit"><span class="ar">اشترك</span><span class="en">Subscribe</span></button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="ft-g">
+      <div class="ft-brand">
+        <img src="Logo Tammey.png" alt="Tammey" style="height:52px;filter:brightness(10)"/>
+        <p><span class="ar">طمي — مؤسسة اجتماعية متخصصة في تنمية الشباب والمجتمع، تعمل في الأردن والعالم العربي منذ أكثر من 13 عامًا.</span><span class="en">Tammey — A social enterprise specialized in youth and community development, operating in Jordan and the Arab world for over 13 years.</span></p>
+      </div>
+      <div class="ft-col">
+        <h4><span class="ar">روابط سريعة</span><span class="en">Quick Links</span></h4>
+        <ul class="fl">
+          <li><a href="index.html#about"><span class="ar">عن طمي</span><span class="en">About Tammey</span></a></li>
+          <li><a href="index.html#programs"><span class="ar">برامجنا</span><span class="en">Our Programs</span></a></li>
+          <li><a href="blog.html"><span class="ar">المدونة</span><span class="en">Blog</span></a></li>
+          <li><a href="index.html#contact"><span class="ar">تواصل معنا</span><span class="en">Contact Us</span></a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4><span class="ar">تابعنا</span><span class="en">Follow Us</span></h4>
+        <ul class="fl">
+          <li><a href="https://www.facebook.com/Tammey.Org/" target="_blank">Facebook</a></li>
+          <li><a href="#" target="_blank">LinkedIn</a></li>
+          <li><a href="#" target="_blank">Twitter / X</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-btm">
+      <span>© 2025 <span class="ar">طمي. جميع الحقوق محفوظة.</span><span class="en">Tammey. All rights reserved.</span></span>
+      <a href="index.html"><span class="ar">الصفحة الرئيسية</span><span class="en">Home</span></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================
+   CONFIGURATION — change API_BASE to your server URL
+   ===================================================== */
+const API_BASE = 'http://localhost:3001/api';
+
+/* ── LANGUAGE ─────────────────────────────────────── */
+function setLang(lang) {
+  const html = document.documentElement;
+  html.setAttribute('data-lang', lang);
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('btn-ar').classList.toggle('act', lang === 'ar');
+  document.getElementById('btn-en').classList.toggle('act', lang === 'en');
+  localStorage.setItem('tammey-lang', lang);
+}
+(function(){ setLang(localStorage.getItem('tammey-lang') || 'ar'); })();
+
+/* ── MOBILE NAV ───────────────────────────────────── */
+document.getElementById('mob-close').addEventListener('click', () => {
+  document.getElementById('mob-nav').classList.remove('open');
+});
+
+/* ── STATE ────────────────────────────────────────── */
+let currentCat  = '';
+let currentPage = 1;
+let totalPages  = 1;
+let searchTerm  = '';
+const PAGE_SIZE = 9;
+
+/* ── HELPERS ──────────────────────────────────────── */
+function lang() { return document.documentElement.getAttribute('data-lang') || 'ar'; }
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString(lang() === 'ar' ? 'ar-JO' : 'en-GB', { year:'numeric', month:'long', day:'numeric' });
+}
+
+function coverOrPlaceholder(url) {
+  return url || 'https://placehold.co/800x450/e8f6fc/3a8fb5?text=Tammey';
+}
+
+/* ── LOAD CATEGORIES ──────────────────────────────── */
+async function loadCategories() {
+  try {
+    const res  = await fetch(`${API_BASE}/categories`);
+    const cats = await res.json();
+    const wrap = document.getElementById('tabs-wrap');
+    cats.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className   = 'tab';
+      btn.dataset.cat = c.slug;
+      btn.innerHTML   = `<span class="ar">${c.name_ar}</span><span class="en">${c.name_en}</span>`;
+      btn.onclick     = () => filterCat(btn, c.slug);
+      wrap.appendChild(btn);
+    });
+  } catch(e) {
+    console.warn('Could not load categories — API offline?', e);
+  }
+}
+
+/* ── RENDER FEATURED ──────────────────────────────── */
+function renderFeatured(post) {
+  if (!post) { document.getElementById('featured-wrap').style.display = 'none'; return; }
+  const l = lang();
+  document.getElementById('featured-container').innerHTML = `
+    <a class="featured-card" href="blog-post.html?slug=${post.slug}">
+      <div class="fc-img">
+        <img src="${coverOrPlaceholder(post.cover_image)}" alt="${l==='ar'?post.title_ar:post.title_en||post.title_ar}" loading="lazy"/>
+        <span class="fc-badge"><span class="ar">مميز</span><span class="en">Featured</span></span>
+      </div>
+      <div class="fc-body">
+        <div class="fc-tag" style="color:${post.category_color}">
+          <span class="ar">${post.category_ar}</span><span class="en">${post.category_en}</span>
+        </div>
+        <h2><span class="ar">${post.title_ar}</span><span class="en">${post.title_en||post.title_ar}</span></h2>
+        <p><span class="ar">${post.excerpt_ar||''}</span><span class="en">${post.excerpt_en||post.excerpt_ar||''}</span></p>
+        <div class="fc-meta">
+          <span>📅 ${formatDate(post.published_at)}</span>
+          <span>⏱ <span class="ar">${post.read_time_min} دقيقة</span><span class="en">${post.read_time_min} min read</span></span>
+          ${post.author_ar ? `<span>✍️ <span class="ar">${post.author_ar}</span><span class="en">${post.author_en||post.author_ar}</span></span>` : ''}
+        </div>
+      </div>
+    </a>`;
+}
+
+/* ── RENDER POSTS GRID ────────────────────────────── */
+function renderPosts(posts, append = false) {
+  const grid = document.getElementById('posts-grid');
+  if (!append) grid.innerHTML = '';
+
+  if (!posts.length && !append) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="es-icon">📭</div>
+        <h4><span class="ar">لا توجد مقالات بعد</span><span class="en">No articles yet</span></h4>
+        <p><span class="ar">تابعنا قريبًا لأحدث المحتوى</span><span class="en">Stay tuned for upcoming content</span></p>
+      </div>`;
+    return;
+  }
+
+  posts.forEach(p => {
+    const card = document.createElement('a');
+    card.className = 'post-card';
+    card.href = `blog-post.html?slug=${p.slug}`;
+    card.innerHTML = `
+      <div class="pc-img">
+        <img src="${coverOrPlaceholder(p.cover_image)}" alt="${p.title_ar}" loading="lazy"/>
+        <span class="pc-cat" style="background:${p.category_color||'#6EC1E4'}">
+          <span class="ar">${p.category_ar}</span><span class="en">${p.category_en}</span>
+        </span>
+      </div>
+      <div class="pc-body">
+        <div class="pc-title"><span class="ar">${p.title_ar}</span><span class="en">${p.title_en||p.title_ar}</span></div>
+        <div class="pc-excerpt"><span class="ar">${p.excerpt_ar||''}</span><span class="en">${p.excerpt_en||p.excerpt_ar||''}</span></div>
+        <div class="pc-footer">
+          <span>📅 ${formatDate(p.published_at)}</span>
+          <span class="rd">⏱ <span class="ar">${p.read_time_min} د</span><span class="en">${p.read_time_min}m</span></span>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ── LOAD POSTS ───────────────────────────────────── */
+async function loadPosts(append = false) {
+  if (!append) {
+    // Show skeleton
+    const grid = document.getElementById('posts-grid');
+    grid.innerHTML = Array(3).fill(`
+      <div class="sk-card">
+        <div class="sk-img skeleton"></div>
+        <div class="sk-body">
+          <div class="sk-t1 skeleton"></div><div class="sk-t2 skeleton"></div>
+          <div class="sk-t3 skeleton"></div><div class="sk-t4 skeleton"></div>
+        </div>
+      </div>`).join('');
+  }
+
+  try {
+    const params = new URLSearchParams({
+      page:  currentPage,
+      limit: PAGE_SIZE,
+    });
+    if (currentCat)  params.set('category', currentCat);
+    if (searchTerm)  params.set('search',   searchTerm);
+
+    const res  = await fetch(`${API_BASE}/posts?${params}`);
+    const data = await res.json();
+
+    totalPages = data.pages || 1;
+
+    // Featured: only on first page, no category/search filter
+    if (currentPage === 1 && !currentCat && !searchTerm) {
+      // Pull featured separately
+      try {
+        const fRes  = await fetch(`${API_BASE}/posts?featured=true&limit=1`);
+        const fData = await fRes.json();
+        renderFeatured(fData.posts?.[0] || null);
+      } catch { renderFeatured(null); }
+    } else {
+      document.getElementById('featured-wrap').style.display = 'none';
+    }
+
+    renderPosts(data.posts || [], append);
+
+    // Count label
+    document.getElementById('posts-count-label').innerHTML =
+      `<span class="ar">${data.total} مقال</span><span class="en">${data.total} Article${data.total!==1?'s':''}</span>`;
+
+    // Load more button
+    const lmw = document.getElementById('load-more-wrap');
+    lmw.style.display = currentPage < totalPages ? 'block' : 'none';
+
+  } catch(err) {
+    console.error('API error:', err);
+    renderFallback();
+  }
+}
+
+/* ── FALLBACK (API offline) ───────────────────────── */
+function renderFallback() {
+  document.getElementById('featured-wrap').style.display = 'none';
+  document.getElementById('posts-grid').innerHTML = `
+    <div class="empty-state">
+      <div class="es-icon">🔌</div>
+      <h4><span class="ar">تعذّر الاتصال بالخادم</span><span class="en">Could not reach the server</span></h4>
+      <p><span class="ar">تأكد من تشغيل API ثم أعد تحميل الصفحة.</span><span class="en">Make sure the API server is running, then reload the page.</span></p>
+    </div>`;
+  document.getElementById('load-more-wrap').style.display = 'none';
+}
+
+/* ── FILTER BY CATEGORY ───────────────────────────── */
+function filterCat(btn, slug) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+  btn.classList.add('act');
+  currentCat  = slug;
+  currentPage = 1;
+  searchTerm  = '';
+  document.getElementById('search-input').value = '';
+  if (slug || !slug) document.getElementById('featured-wrap').style.display = slug ? 'none' : '';
+  loadPosts();
+}
+
+/* ── SEARCH ───────────────────────────────────────── */
+function doSearch() {
+  const val = document.getElementById('search-input').value.trim();
+  searchTerm  = val;
+  currentPage = 1;
+  currentCat  = '';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+  document.querySelector('.tab[data-cat=""]').classList.add('act');
+  loadPosts();
+}
+document.getElementById('search-btn').addEventListener('click', doSearch);
+document.getElementById('search-input').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
+
+/* ── LOAD MORE ────────────────────────────────────── */
+function loadMore() {
+  if (currentPage < totalPages) {
+    currentPage++;
+    loadPosts(true);
+  }
+}
+
+/* ── NEWSLETTER SUBMIT ────────────────────────────── */
+function nlSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = '✓';
+  btn.style.background = '#4ade80';
+  setTimeout(() => { btn.textContent = lang()==='ar'?'اشترك':'Subscribe'; btn.style.background=''; }, 2500);
+  document.getElementById('nl-email').value = '';
+}
+
+/* ── INIT ─────────────────────────────────────────── */
+loadCategories();
+loadPosts();
+</script>
+</body>
+</html>
