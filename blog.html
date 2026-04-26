@@ -297,7 +297,7 @@ footer{background:var(--dk);color:rgba(255,255,255,.75);padding:60px 0 24px}
 /* =====================================================
    CONFIGURATION — change API_BASE to your server URL
    ===================================================== */
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = '/api.php';
 
 /* ── LANGUAGE ─────────────────────────────────────── */
 function setLang(lang) {
@@ -339,7 +339,7 @@ function coverOrPlaceholder(url) {
 /* ── LOAD CATEGORIES ──────────────────────────────── */
 async function loadCategories() {
   try {
-    const res  = await fetch(`${API_BASE}/categories`);
+    const res  = await fetch(`${API_BASE}?action=categories`);
     const cats = await res.json();
     const wrap = document.getElementById('tabs-wrap');
     cats.forEach(c => {
@@ -441,7 +441,7 @@ async function loadPosts(append = false) {
     if (currentCat)  params.set('category', currentCat);
     if (searchTerm)  params.set('search',   searchTerm);
 
-    const res  = await fetch(`${API_BASE}/posts?${params}`);
+    const res  = await fetch(`${API_BASE}?action=posts&${params}`);
     const data = await res.json();
 
     totalPages = data.pages || 1;
@@ -450,7 +450,7 @@ async function loadPosts(append = false) {
     if (currentPage === 1 && !currentCat && !searchTerm) {
       // Pull featured separately
       try {
-        const fRes  = await fetch(`${API_BASE}/posts?featured=true&limit=1`);
+        const fRes  = await fetch(`${API_BASE}?action=posts&featured=true&limit=1`);
         const fData = await fRes.json();
         renderFeatured(fData.posts?.[0] || null);
       } catch { renderFeatured(null); }

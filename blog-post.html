@@ -162,7 +162,7 @@ footer a{color:var(--teal);text-decoration:none}
 </footer>
 
 <script>
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = '/api.php';
 
 /* ── LANGUAGE ─────────────────────────────────────── */
 function setLang(lang) {
@@ -276,13 +276,13 @@ async function loadPost() {
     return;
   }
   try {
-    const res  = await fetch(`${API_BASE}/posts/${encodeURIComponent(slug)}`);
+    const res  = await fetch(`${API_BASE}?action=post&slug=${encodeURIComponent(slug)}`);
     if (!res.ok) throw new Error('Not found');
     const post = await res.json();
     renderPost(post);
 
     // Load related (same category, excluding this slug)
-    const relRes  = await fetch(`${API_BASE}/posts?category=${post.category_slug}&limit=3`);
+    const relRes  = await fetch(`${API_BASE}?action=posts&category=${post.category_slug}&limit=3`);
     const relData = await relRes.json();
     const related = (relData.posts || []).filter(p => p.slug !== slug).slice(0, 3);
     renderRelated(related);
