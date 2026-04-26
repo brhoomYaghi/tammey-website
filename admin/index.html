@@ -421,18 +421,6 @@ async function loadCategories() {
   } catch(e) { console.warn('Categories unavailable'); }
 }
 
-function loadCatsPanel() {
-  const tbody = document.getElementById('cat-tbody');
-  if (!window._cats?.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--mt)">No categories loaded</td></tr>`; return; }
-  tbody.innerHTML = window._cats.map(c => `
-    <tr>
-      <td>${c.name_ar}</td>
-      <td>${c.name_en}</td>
-      <td><code>${c.slug}</code></td>
-      <td><span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:${c.color};vertical-align:middle"></span> ${c.color}</td>
-    </tr>`).join('');
-}
-
 /* ── IMAGE UPLOAD ──────────────────────────────── */
 async function uploadImage(input) {
   const file = input.files[0];
@@ -611,7 +599,7 @@ async function createCategory() {
 }
 
 function openCatModal(id) {
-  const cat = window._cats?.find(c => c.id === id);
+  const cat = window._cats?.find(c => String(c.id) === String(id));
   if (!cat) return;
   document.getElementById('ec-id').value    = cat.id;
   document.getElementById('ec-ar').value    = cat.name_ar;
