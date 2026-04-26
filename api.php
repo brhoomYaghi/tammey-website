@@ -163,6 +163,23 @@ if ($action === 'post' && $method === 'GET') {
 //  ADMIN ACTIONS (require Admin-Secret header)
 // ════════════════════════════════════════════════════════════
 
+// GET ?action=admin_post&id=X  — single post with FULL body for editing
+if ($action === 'admin_post' && $method === 'GET') {
+    require_admin();
+    $id = (int)($_GET['id'] ?? 0);
+    if (!$id) json_out(['error' => 'id required'], 400);
+    $st = $db->prepare(
+        "SELECT p.*, c.slug AS category_slug
+         FROM blog_posts p
+         JOIN blog_categories c ON c.id = p.category_id
+         WHERE p.id = ?"
+    );
+    $st->execute([$id]);
+    $post = $st->fetch();
+    if (!$post) json_out(['error' => 'Post not found'], 404);
+    json_out($post);
+}
+
 // GET ?action=admin_posts
 if ($action === 'admin_posts' && $method === 'GET') {
     require_admin();
@@ -331,6 +348,71 @@ if ($action === 'delete' && $method === 'DELETE') {
         $id = (int)($_GET['id'] ?? 0);
         if (!$id) json_out(['error' => 'id required'], 400);
         $db->prepare('DELETE FROM blog_posts WHERE id=?')->execute([$id]);
+        json_out(['ok' => true]);
+    } catch (Exception $e) {
+        json_out(['error' => $e->getMessage()], 500);
+    }
+}
+
+// ── CATEGORY CRUD ────────────────────────────────────────────
+
+// POST ?action=create_category
+if ($action === 'create_category' && $method === 'POST') {
+    require_admin();
+    try {
+        $b = get_body();
+        if (empty($b['slug']) || empty($b['name_ar']) || empty($b['name_en']))
+            json_out(['error' => 'slug, name_ar, name_en required'], 400);
+        $db->prepare(
+            "INSERT INTO blog_categories (slug, name_ar, name_en, color, sort_order) VALUES (?,?,?,?,?)"
+        )->execute([
+            preg_replace('/[^a-z0-9\-]/', '', strtolower($b['slug'])),
+            $b['name_ar'],
+            $b['name_en'],
+            $b['color'] ?? '#6EC1E4',
+            (int)($b['sort_order'] ?? 0),
+        ]);
+        json_out(['id' => (int)$db->lastInsertId(), 'ok' => true], 201);
+    } catch (Exception $e) {
+        json_out(['error' => $e->getMessage()], 500);
+    }
+}
+
+// PUT ?action=update_category&id=X
+if ($action === 'update_category' && $method === 'PUT') {
+    require_admin();
+    try {
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) json_out(['error' => 'id required'], 400);
+        $b = get_body();
+        $db->prepare(
+            "UPDATE blog_categories SET slug=?, name_ar=?, name_en=?, color=?, sort_order=? WHERE id=?"
+        )->execute([
+            preg_replace('/[^a-z0-9\-]/', '', strtolower($b['slug'] ?? '')),
+            $b['name_ar'] ?? '',
+            $b['name_en'] ?? '',
+            $b['color']   ?? '#6EC1E4',
+            (int)($b['sort_order'] ?? 0),
+            $id,
+        ]);
+        json_out(['ok' => true]);
+    } catch (Exception $e) {
+        json_out(['error' => $e->getMessage()], 500);
+    }
+}
+
+// DELETE ?action=delete_category&id=X
+if ($action === 'delete_category' && $method === 'DELETE') {
+    require_admin();
+    try {
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) json_out(['error' => 'id required'], 400);
+        // Check if any posts use this category
+        $count = $db->prepare("SELECT COUNT(*) FROM blog_posts WHERE category_id=?");
+        $count->execute([$id]);
+        if ((int)$count->fetchColumn() > 0)
+            json_out(['error' => 'Cannot delete: category has posts assigned to it'], 409);
+        $db->prepare("DELETE FROM blog_categories WHERE id=?")->execute([$id]);
         json_out(['ok' => true]);
     } catch (Exception $e) {
         json_out(['error' => $e->getMessage()], 500);

@@ -246,12 +246,44 @@ textarea{resize:vertical;min-height:160px}
 
     <!-- CATEGORIES PANEL -->
     <div class="panel" id="panel-categories">
+      <!-- Add new category -->
+      <div class="card" style="padding:24px;margin-bottom:20px">
+        <div class="form-section-title" style="margin-bottom:16px">➕ إضافة تصنيف جديد / Add Category</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 120px 80px auto;gap:10px;align-items:end">
+          <div class="form-group" style="margin:0"><label>الاسم بالعربية *</label><input type="text" id="nc-ar" placeholder="تنمية الشباب"/></div>
+          <div class="form-group" style="margin:0"><label>Name (EN) *</label><input type="text" id="nc-en" placeholder="Youth Development"/></div>
+          <div class="form-group" style="margin:0"><label>Slug *</label><input type="text" id="nc-slug" placeholder="youth-development"/></div>
+          <div class="form-group" style="margin:0"><label>اللون / Color</label><input type="color" id="nc-color" value="#6EC1E4" style="height:40px;padding:4px"/></div>
+          <div class="form-group" style="margin:0"><label>الترتيب</label><input type="number" id="nc-order" value="0" min="0"/></div>
+          <button class="btn-primary" onclick="createCategory()" style="height:40px;white-space:nowrap">+ إضافة</button>
+        </div>
+      </div>
+      <!-- Categories table -->
       <div class="card">
-        <div class="card-head"><h3>التصنيفات / Categories</h3></div>
+        <div class="card-head"><h3>التصنيفات الحالية / Current Categories</h3><button class="btn-ghost" onclick="loadCatsPanel()">🔄 تحديث</button></div>
         <table>
-          <thead><tr><th>الاسم بالعربية</th><th>Name (EN)</th><th>Slug</th><th>اللون</th></tr></thead>
-          <tbody id="cat-tbody"><tr><td colspan="4" style="text-align:center;color:var(--mt);padding:32px">جاري التحميل...</td></tr></tbody>
+          <thead><tr><th>الاسم بالعربية</th><th>Name (EN)</th><th>Slug</th><th>اللون</th><th>الترتيب</th><th>إجراءات</th></tr></thead>
+          <tbody id="cat-tbody"><tr><td colspan="6" style="text-align:center;color:var(--mt);padding:32px">جاري التحميل...</td></tr></tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- EDIT CATEGORY MODAL -->
+    <div id="cat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:32px;width:520px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:20px">تعديل التصنيف / Edit Category</h3>
+        <input type="hidden" id="ec-id"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="form-group" style="margin:0"><label>الاسم بالعربية *</label><input type="text" id="ec-ar"/></div>
+          <div class="form-group" style="margin:0"><label>Name (EN) *</label><input type="text" id="ec-en"/></div>
+          <div class="form-group" style="margin:0"><label>Slug *</label><input type="text" id="ec-slug"/></div>
+          <div class="form-group" style="margin:0"><label>اللون / Color</label><input type="color" id="ec-color" style="height:40px;padding:4px"/></div>
+          <div class="form-group" style="margin:0"><label>الترتيب / Order</label><input type="number" id="ec-order" min="0"/></div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button class="btn-ghost" onclick="closeCatModal()">إلغاء / Cancel</button>
+          <button class="btn-primary" onclick="updateCategory()">💾 حفظ / Save</button>
+        </div>
       </div>
     </div>
 
@@ -304,8 +336,8 @@ function showPanel(name, btn) {
   if (btn) btn.classList.add('act');
   document.getElementById('panel-title').textContent = panelTitles[name] || name;
   if (name === 'posts')      loadAllPosts();
-  if (name === 'categories') loadCatsPanel();
-  if (name === 'new-post')  { clearForm(); document.getElementById('edit-id').value=''; }
+  if (name === 'categories') { loadCategories().then(() => loadCatsPanel()); }
+  if (name === 'new-post')  { clearForm(); document.getElementById('edit-id').value=''; document.getElementById('panel-title').textContent = panelTitles['new-post']; }
 }
 
 /* ── TOAST ─────────────────────────────────────── */
@@ -463,27 +495,35 @@ async function savePost() {
 
 /* ── EDIT POST ─────────────────────────────────── */
 async function editPost(id) {
+  toast('⏳ جاري التحميل...');
+  showPanel('new-post', document.querySelectorAll('.sb-link')[2]);
+  document.getElementById('panel-title').textContent = 'تعديل مقال / Edit Post';
   try {
-    // Load from admin list (has full data)
-    toast('⏳ جاري التحميل...');
-    showPanel('new-post', document.querySelectorAll('.sb-link')[2]);
-    document.getElementById('panel-title').textContent = 'تعديل مقال / Edit Post';
-    // Re-fetch by ID via admin endpoint
-    const res   = await fetch(`${API_BASE}?action=admin_posts&limit=100`, {headers:{'Admin-Secret':ADMIN_SECRET}});
-    const posts = await res.json();
-    const post  = posts.find(p => p.id === id);
-    if (!post) { toast('Post not found', 'err'); return; }
+    const res  = await fetch(`${API_BASE}?action=admin_post&id=${id}`, {headers:{'Admin-Secret':ADMIN_SECRET}});
+    if (!res.ok) throw new Error(await res.text());
+    const post = await res.json();
 
-    // Fetch full body
-    // We use the slug if available; otherwise partial data
-    document.getElementById('edit-id').value     = post.id;
-    document.getElementById('f-title-ar').value  = post.title_ar || '';
-    document.getElementById('f-title-en').value  = post.title_en || '';
-    document.getElementById('f-category').value  = ''; // reset then set by name
-    document.getElementById('f-status').value    = post.status || 'draft';
+    document.getElementById('edit-id').value       = post.id;
+    document.getElementById('f-title-ar').value    = post.title_ar    || '';
+    document.getElementById('f-title-en').value    = post.title_en    || '';
+    document.getElementById('f-excerpt-ar').value  = post.excerpt_ar  || '';
+    document.getElementById('f-excerpt-en').value  = post.excerpt_en  || '';
+    document.getElementById('f-body-ar').value     = post.body_ar     || '';
+    document.getElementById('f-body-en').value     = post.body_en     || '';
+    document.getElementById('f-readtime').value    = post.read_time_min || 5;
+    document.getElementById('f-status').value      = post.status      || 'draft';
+    document.getElementById('f-featured').value    = post.is_featured ? '1' : '0';
+    document.getElementById('f-cover').value       = post.cover_image || '';
+    document.getElementById('f-category').value    = post.category_id || '';
+
+    if (post.cover_image) {
+      const preview = document.getElementById('cover-preview');
+      preview.src   = post.cover_image;
+      preview.style.display = 'block';
+    }
     toast('');
   } catch(e) {
-    toast('❌ Failed to load post', 'err');
+    toast('❌ ' + e.message, 'err');
   }
 }
 
@@ -520,6 +560,107 @@ async function deletePost(id) {
   } catch(e) {
     toast('❌ Error deleting post', 'err');
   }
+}
+
+/* ── CATEGORY MANAGEMENT ───────────────────────── */
+function loadCatsPanel() {
+  const tbody = document.getElementById('cat-tbody');
+  if (!window._cats?.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--mt)">لا توجد تصنيفات</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = window._cats.map(c => `
+    <tr>
+      <td>${c.name_ar}</td>
+      <td>${c.name_en}</td>
+      <td><code style="font-size:.8rem;background:#f3f4f6;padding:2px 8px;border-radius:4px">${c.slug}</code></td>
+      <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border-radius:50%;background:${c.color};display:inline-block"></span>${c.color}</span></td>
+      <td>${c.sort_order}</td>
+      <td>
+        <div class="td-actions">
+          <button class="btn-ghost" style="padding:5px 10px;font-size:.78rem" onclick="openCatModal(${c.id})">✏️ تعديل</button>
+          <button class="btn-danger" style="padding:5px 10px;font-size:.78rem" onclick="deleteCategory(${c.id},'${c.name_ar}')">🗑 حذف</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function createCategory() {
+  const payload = {
+    name_ar:    document.getElementById('nc-ar').value.trim(),
+    name_en:    document.getElementById('nc-en').value.trim(),
+    slug:       document.getElementById('nc-slug').value.trim(),
+    color:      document.getElementById('nc-color').value,
+    sort_order: parseInt(document.getElementById('nc-order').value) || 0,
+  };
+  if (!payload.name_ar || !payload.name_en || !payload.slug)
+    return toast('⚠️ جميع الحقول المطلوبة / All fields required', 'err');
+  try {
+    const res = await fetch(`${API_BASE}?action=create_category`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Admin-Secret':ADMIN_SECRET},
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+    toast('✅ تم إضافة التصنيف / Category added');
+    ['nc-ar','nc-en','nc-slug'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('nc-order').value = '0';
+    await loadCategories();
+    loadCatsPanel();
+  } catch(e) { toast('❌ ' + e.message, 'err'); }
+}
+
+function openCatModal(id) {
+  const cat = window._cats?.find(c => c.id === id);
+  if (!cat) return;
+  document.getElementById('ec-id').value    = cat.id;
+  document.getElementById('ec-ar').value    = cat.name_ar;
+  document.getElementById('ec-en').value    = cat.name_en;
+  document.getElementById('ec-slug').value  = cat.slug;
+  document.getElementById('ec-color').value = cat.color;
+  document.getElementById('ec-order').value = cat.sort_order;
+  const modal = document.getElementById('cat-modal');
+  modal.style.display = 'flex';
+}
+function closeCatModal() {
+  document.getElementById('cat-modal').style.display = 'none';
+}
+
+async function updateCategory() {
+  const id = parseInt(document.getElementById('ec-id').value);
+  const payload = {
+    name_ar:    document.getElementById('ec-ar').value.trim(),
+    name_en:    document.getElementById('ec-en').value.trim(),
+    slug:       document.getElementById('ec-slug').value.trim(),
+    color:      document.getElementById('ec-color').value,
+    sort_order: parseInt(document.getElementById('ec-order').value) || 0,
+  };
+  try {
+    const res = await fetch(`${API_BASE}?action=update_category&id=${id}`, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json','Admin-Secret':ADMIN_SECRET},
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+    toast('✅ تم تحديث التصنيف / Category updated');
+    closeCatModal();
+    await loadCategories();
+    loadCatsPanel();
+  } catch(e) { toast('❌ ' + e.message, 'err'); }
+}
+
+async function deleteCategory(id, name) {
+  if (!confirm(`حذف التصنيف "${name}"؟ / Delete category "${name}"?\n\nلا يمكن حذف التصنيف إذا كان يحتوي على مقالات.`)) return;
+  try {
+    const res = await fetch(`${API_BASE}?action=delete_category&id=${id}`, {
+      method:'DELETE', headers:{'Admin-Secret':ADMIN_SECRET},
+    });
+    const d = await res.json();
+    if (!res.ok) throw new Error(d.error);
+    toast('🗑 تم حذف التصنيف / Category deleted');
+    await loadCategories();
+    loadCatsPanel();
+  } catch(e) { toast('❌ ' + e.message, 'err'); }
 }
 
 /* ── CLEAR FORM ────────────────────────────────── */
