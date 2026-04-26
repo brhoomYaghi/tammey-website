@@ -3,8 +3,62 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="طمي — مؤسسة متخصصة في تنمية الشباب والمجتمع في الأردن والعالم العربي"/>
-<title>طمي | تنمية الشباب والمجتمع</title>
+<!-- Primary Meta -->
+<title>طمي | مؤسسة تنمية الشباب والمجتمع في الأردن والعالم العربي</title>
+<meta name="description" content="طمي مؤسسة اجتماعية متخصصة في تنمية الشباب والمشاركة المجتمعية، تعمل في 28 دولة عربية وأجنبية منذ 13 عامًا. برامج، أبحاث، واستشارات لتمكين الشباب."/>
+<meta name="keywords" content="طمي, تنمية الشباب, الأردن, العمل الشبابي, مشاركة الشباب, سياسات الشباب, برامج شبابية, مجتمع, Tammey, youth development, Jordan, youth policy, Arab world"/>
+<meta name="author" content="طمي — Tammey"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://tammey.org/"/>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="Logo Tammey.png"/>
+<link rel="apple-touch-icon" href="Logo Tammey.png"/>
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+<meta property="og:type"        content="website"/>
+<meta property="og:url"         content="https://tammey.org/"/>
+<meta property="og:title"       content="طمي | مؤسسة تنمية الشباب والمجتمع"/>
+<meta property="og:description" content="مؤسسة اجتماعية متخصصة في تنمية الشباب، تعمل في 28 دولة وتُنجز 145 مشروعًا خلال 13 عامًا من العمل التنموي."/>
+<meta property="og:image"       content="https://tammey.org/certificates ceremony.jpeg"/>
+<meta property="og:image:width"  content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale"      content="ar_JO"/>
+<meta property="og:locale:alternate" content="en_US"/>
+<meta property="og:site_name"   content="طمي — Tammey"/>
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:title"       content="طمي | مؤسسة تنمية الشباب والمجتمع"/>
+<meta name="twitter:description" content="مؤسسة اجتماعية متخصصة في تنمية الشباب، تعمل في 28 دولة خلال 13 عامًا من العمل التنموي."/>
+<meta name="twitter:image"       content="https://tammey.org/certificates ceremony.jpeg"/>
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "طمي",
+  "alternateName": "Tammey",
+  "url": "https://tammey.org",
+  "logo": "https://tammey.org/Logo Tammey.png",
+  "image": "https://tammey.org/certificates ceremony.jpeg",
+  "description": "مؤسسة اجتماعية متخصصة في تنمية الشباب والمشاركة المجتمعية في الأردن والعالم العربي",
+  "foundingDate": "2012",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "الأردن — Jordan"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": "Arab World & International"
+  },
+  "sameAs": [
+    "https://www.facebook.com/Tammey.Org/"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "General Inquiries",
+    "availableLanguage": ["Arabic", "English"]
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
@@ -49,30 +103,40 @@ p.sb{font-size:.97rem;color:var(--mt);line-height:1.9;max-width:580px}
 .ldr-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--brn));animation:lFill 1.2s ease forwards;width:0}
 @keyframes lFill{to{width:100%}}
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 0;transition:all .4s}
-#nav.sc{background:rgba(250,248,245,.97);backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(0,0,0,.07);padding:11px 0}
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 0;transition:all .4s;
+  /* Subtle dark gradient — makes white text readable on ANY hero photo */
+  background:linear-gradient(180deg,rgba(0,0,0,.70) 0%,rgba(0,0,0,0) 100%)}
+#nav.sc{background:rgba(250,248,245,.97)!important;backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(0,0,0,.07);padding:11px 0}
 .nv{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.n-logo img{height:54px;transition:height .3s}
-#nav.sc .n-logo img{height:44px}
+.n-logo img{height:54px;transition:height .3s, filter .4s;
+  /* White logo on dark hero — readable on any photo */
+  filter:brightness(0) invert(1) drop-shadow(0 1px 4px rgba(0,0,0,.25))}
+#nav.sc .n-logo img{height:44px;filter:none}
 .n-links{display:flex;align-items:center;gap:26px;list-style:none}
-.n-links a{font-size:.88rem;font-weight:600;color:rgba(255,255,255,.88);text-decoration:none;transition:color .3s;position:relative}
-#nav.sc .n-links a{color:var(--tx)}
-.n-links a:not(.nc)::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;background:var(--teal);border-radius:2px;transform:scaleX(0);transition:transform .3s}
-.n-links a:hover:not(.nc){color:var(--teal)}
-#nav.sc .n-links a:hover:not(.nc){color:var(--td)}
+.n-links a{font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;transition:all .3s;position:relative;
+  text-shadow:0 1px 6px rgba(0,0,0,.35)}
+#nav.sc .n-links a{color:var(--tx);text-shadow:none}
+.n-links a:not(.nc)::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;background:#fde68a;border-radius:2px;transform:scaleX(0);transition:transform .3s}
+/* Hover before scroll → warm yellow (high contrast on any dark hero) */
+.n-links a:hover:not(.nc){color:#fde68a;text-shadow:0 1px 8px rgba(0,0,0,.4)}
 .n-links a:hover:not(.nc)::after{transform:scaleX(1)}
-.nc{background:var(--brn)!important;color:#fff!important;padding:8px 20px!important;border-radius:50px!important;font-weight:700!important;transition:all .3s!important}
-.nc:hover{background:var(--bd)!important;transform:translateY(-2px)!important;box-shadow:0 6px 20px rgba(125,87,48,.3)!important}
+/* Hover after scroll → teal */
+#nav.sc .n-links a:hover:not(.nc){color:var(--td);text-shadow:none}
+#nav.sc .n-links a:not(.nc)::after{background:var(--teal)}
+.nc{background:rgba(125,87,48,.92)!important;color:#fff!important;padding:8px 20px!important;border-radius:50px!important;font-weight:700!important;transition:all .3s!important;text-shadow:none!important;backdrop-filter:blur(4px)}
+#nav.sc .nc{background:var(--brn)!important}
+.nc:hover{background:var(--bd)!important;transform:translateY(-2px)!important;box-shadow:0 6px 20px rgba(125,87,48,.35)!important}
 .nc::after{display:none!important}
 .n-r{display:flex;align-items:center;gap:12px}
-.lang-sw{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);border-radius:50px;padding:3px}
+.lang-sw{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:50px;padding:3px;backdrop-filter:blur(4px)}
 #nav.sc .lang-sw{background:var(--tl);border-color:rgba(110,193,228,.3)}
-.lb{padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.6);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.lb{padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.8);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:inherit}
 #nav.sc .lb{color:var(--mt)}
 .lb.act{background:var(--teal);color:#fff!important}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.hbg span{width:24px;height:2px;border-radius:2px;transition:all .3s;background:rgba(255,255,255,.88)}
-#nav.sc .hbg span{background:var(--tx)}
+.hbg span{width:24px;height:2px;border-radius:2px;transition:all .3s;background:#fff;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+#nav.sc .hbg span{background:var(--tx);filter:none}
 /* MOBILE NAV DRAWER */
 #mob-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:490;background:rgba(250,248,245,.98);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:10px}
 #mob-nav.open{display:flex}
