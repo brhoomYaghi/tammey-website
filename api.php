@@ -53,6 +53,12 @@ function slug_from($text) {
     $text = preg_replace('/[^\p{L}\p{N}\-]/u', '', $text);
     return $text . '-' . time();
 }
+// Convert any date string (ISO 8601 or otherwise) → MySQL DATETIME format
+function to_mysql_date($val) {
+    if (empty($val)) return null;
+    $ts = strtotime($val);
+    return $ts ? date('Y-m-d H:i:s', $ts) : null;
+}
 
 // ── Router ───────────────────────────────────────────────────
 $action = $_GET['action'] ?? '';
@@ -197,108 +203,140 @@ if ($action === 'upload' && $method === 'POST') {
 // POST ?action=create
 if ($action === 'create' && $method === 'POST') {
     require_admin();
-    $b = get_body();
+    try {
+        $b = get_body();
 
-    if (empty($b['title_ar']) || empty($b['body_ar']) || empty($b['category_id']))
-        json_out(['error' => 'title_ar, body_ar, category_id required'], 400);
+        if (empty($b['title_ar']) || empty($b['body_ar']) || empty($b['category_id']))
+            json_out(['error' => 'title_ar, body_ar, and category_id are required'], 400);
 
-    $slug   = slug_from($b['title_ar']);
-    $pub_at = ($b['status'] ?? 'draft') === 'published' ? date('Y-m-d H:i:s') : null;
-    if (!empty($b['published_at'])) $pub_at = $b['published_at'];
+        $status = $b['status'] ?? 'draft';
+        $slug   = slug_from($b['title_ar']);
 
-    $st = $db->prepare(
-        "INSERT INTO blog_posts
-           (slug, category_id, author_id, title_ar, title_en,
-            excerpt_ar, excerpt_en, body_ar, body_en,
-            cover_image, read_time_min, is_featured, status, published_at)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-    );
-    $st->execute([
-        $slug,
-        $b['category_id'],
-        $b['author_id'] ?? null,
-        $b['title_ar'],
-        $b['title_en']    ?? null,
-        $b['excerpt_ar']  ?? null,
-        $b['excerpt_en']  ?? null,
-        $b['body_ar'],
-        $b['body_en']     ?? null,
-        $b['cover_image'] ?? null,
-        $b['read_time_min'] ?? 5,
-        empty($b['is_featured']) ? 0 : 1,
-        $b['status'] ?? 'draft',
-        $pub_at,
-    ]);
-    $newId = $db->lastInsertId();
+        // Convert date from JS ISO format → MySQL format
+        if (!empty($b['published_at'])) {
+            $pub_at = to_mysql_date($b['published_at']);
+        } elseif ($status === 'published') {
+            $pub_at = date('Y-m-d H:i:s');
+        } else {
+            $pub_at = null;
+        }
 
-    foreach (($b['tags'] ?? []) as $tagId) {
-        $db->prepare('INSERT IGNORE INTO blog_post_tags (post_id, tag_id) VALUES (?,?)')->execute([$newId, $tagId]);
+        $st = $db->prepare(
+            "INSERT INTO blog_posts
+               (slug, category_id, author_id, title_ar, title_en,
+                excerpt_ar, excerpt_en, body_ar, body_en,
+                cover_image, read_time_min, is_featured, status, published_at)
+             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        );
+        $st->execute([
+            $slug,
+            (int)$b['category_id'],
+            !empty($b['author_id']) ? (int)$b['author_id'] : null,
+            $b['title_ar'],
+            $b['title_en']      ?? null,
+            $b['excerpt_ar']    ?? null,
+            $b['excerpt_en']    ?? null,
+            $b['body_ar'],
+            $b['body_en']       ?? null,
+            $b['cover_image']   ?? null,
+            (int)($b['read_time_min'] ?? 5),
+            !empty($b['is_featured']) ? 1 : 0,
+            $status,
+            $pub_at,
+        ]);
+        $newId = $db->lastInsertId();
+
+        foreach (($b['tags'] ?? []) as $tagId) {
+            $db->prepare('INSERT IGNORE INTO blog_post_tags (post_id, tag_id) VALUES (?,?)')
+               ->execute([$newId, (int)$tagId]);
+        }
+        json_out(['id' => (int)$newId, 'slug' => $slug], 201);
+    } catch (Exception $e) {
+        json_out(['error' => 'Create failed: ' . $e->getMessage()], 500);
     }
-    json_out(['id' => (int)$newId, 'slug' => $slug], 201);
 }
 
 // PUT ?action=update&id=X
 if ($action === 'update' && $method === 'PUT') {
     require_admin();
-    $id = (int)($_GET['id'] ?? 0);
-    if (!$id) json_out(['error' => 'id required'], 400);
-    $b = get_body();
+    try {
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) json_out(['error' => 'id required'], 400);
+        $b = get_body();
 
-    $pub_at = null;
-    if (($b['status'] ?? '') === 'published') $pub_at = date('Y-m-d H:i:s');
-    if (!empty($b['published_at'])) $pub_at = $b['published_at'];
-
-    $db->prepare(
-        "UPDATE blog_posts SET
-           category_id=?, author_id=?, title_ar=?, title_en=?,
-           excerpt_ar=?, excerpt_en=?, body_ar=?, body_en=?,
-           cover_image=?, read_time_min=?, is_featured=?, status=?, published_at=?
-         WHERE id=?"
-    )->execute([
-        $b['category_id'],
-        $b['author_id'] ?? null,
-        $b['title_ar'],
-        $b['title_en']    ?? null,
-        $b['excerpt_ar']  ?? null,
-        $b['excerpt_en']  ?? null,
-        $b['body_ar'],
-        $b['body_en']     ?? null,
-        $b['cover_image'] ?? null,
-        $b['read_time_min'] ?? 5,
-        empty($b['is_featured']) ? 0 : 1,
-        $b['status'] ?? 'draft',
-        $pub_at,
-        $id,
-    ]);
-
-    if (isset($b['tags']) && is_array($b['tags'])) {
-        $db->prepare('DELETE FROM blog_post_tags WHERE post_id=?')->execute([$id]);
-        foreach ($b['tags'] as $tagId) {
-            $db->prepare('INSERT IGNORE INTO blog_post_tags (post_id,tag_id) VALUES (?,?)')->execute([$id, $tagId]);
+        $status = $b['status'] ?? 'draft';
+        if (!empty($b['published_at'])) {
+            $pub_at = to_mysql_date($b['published_at']);
+        } elseif ($status === 'published') {
+            $pub_at = date('Y-m-d H:i:s');
+        } else {
+            $pub_at = null;
         }
+
+        $db->prepare(
+            "UPDATE blog_posts SET
+               category_id=?, author_id=?, title_ar=?, title_en=?,
+               excerpt_ar=?, excerpt_en=?, body_ar=?, body_en=?,
+               cover_image=?, read_time_min=?, is_featured=?, status=?, published_at=?
+             WHERE id=?"
+        )->execute([
+            (int)$b['category_id'],
+            !empty($b['author_id']) ? (int)$b['author_id'] : null,
+            $b['title_ar'],
+            $b['title_en']      ?? null,
+            $b['excerpt_ar']    ?? null,
+            $b['excerpt_en']    ?? null,
+            $b['body_ar'],
+            $b['body_en']       ?? null,
+            $b['cover_image']   ?? null,
+            (int)($b['read_time_min'] ?? 5),
+            !empty($b['is_featured']) ? 1 : 0,
+            $status,
+            $pub_at,
+            $id,
+        ]);
+
+        if (isset($b['tags']) && is_array($b['tags'])) {
+            $db->prepare('DELETE FROM blog_post_tags WHERE post_id=?')->execute([$id]);
+            foreach ($b['tags'] as $tagId) {
+                $db->prepare('INSERT IGNORE INTO blog_post_tags (post_id,tag_id) VALUES (?,?)')
+                   ->execute([$id, (int)$tagId]);
+            }
+        }
+        json_out(['ok' => true]);
+    } catch (Exception $e) {
+        json_out(['error' => 'Update failed: ' . $e->getMessage()], 500);
     }
-    json_out(['ok' => true]);
 }
 
 // PATCH ?action=publish&id=X
 if ($action === 'publish' && $method === 'PATCH') {
     require_admin();
-    $id      = (int)($_GET['id'] ?? 0);
-    $b       = get_body();
-    $publish = !empty($b['publish']);
-    $db->prepare('UPDATE blog_posts SET status=?, published_at=? WHERE id=?')
-       ->execute([$publish ? 'published' : 'draft', $publish ? date('Y-m-d H:i:s') : null, $id]);
-    json_out(['ok' => true]);
+    try {
+        $id      = (int)($_GET['id'] ?? 0);
+        $b       = get_body();
+        $publish = !empty($b['publish']);
+        $db->prepare('UPDATE blog_posts SET status=?, published_at=? WHERE id=?')
+           ->execute([$publish ? 'published' : 'draft', $publish ? date('Y-m-d H:i:s') : null, $id]);
+        json_out(['ok' => true]);
+    } catch (Exception $e) {
+        json_out(['error' => $e->getMessage()], 500);
+    }
 }
 
 // DELETE ?action=delete&id=X
 if ($action === 'delete' && $method === 'DELETE') {
     require_admin();
-    $id = (int)($_GET['id'] ?? 0);
-    if (!$id) json_out(['error' => 'id required'], 400);
-    $db->prepare('DELETE FROM blog_posts WHERE id=?')->execute([$id]);
-    json_out(['ok' => true]);
+    try {
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) json_out(['error' => 'id required'], 400);
+        $db->prepare('DELETE FROM blog_posts WHERE id=?')->execute([$id]);
+        json_out(['ok' => true]);
+    } catch (Exception $e) {
+        json_out(['error' => $e->getMessage()], 500);
+    }
 }
 
 // Fallback
 json_out(['error' => 'Unknown action'], 404);
+                              
