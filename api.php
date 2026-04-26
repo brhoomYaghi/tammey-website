@@ -9,8 +9,8 @@
 define('DB_HOST',      'localhost');
 define('DB_NAME',      'ndnnwpjrrz');
 define('DB_USER',      'ndnnwpjrrz');
-define('DB_PASS',      'YOUR_MYSQL_PASSWORD_HERE');   // ← paste from Cloudways DB details
-define('ADMIN_SECRET', 'YOUR_ADMIN_PASSWORD_HERE');   // ← choose any password for the admin panel
+define('DB_PASS',      '4xFyRrARD5');   // ← paste from Cloudways DB details
+define('ADMIN_SECRET', 'admin123');   // ← choose any password for the admin panel
 define('UPLOADS_DIR',  __DIR__ . '/blog-uploads/');
 define('UPLOADS_URL',  '/blog-uploads/');
 
