@@ -96,7 +96,7 @@ p.sb{font-size:.97rem;color:var(--mt);line-height:1.9;max-width:580px}
 .btn-b:hover{background:var(--teal);color:#fff;transform:translateY(-2px)}
 /* LOADER */
 #ldr{position:fixed;inset:0;z-index:9999;background:var(--cr);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .7s,visibility .7s}
-#ldr.done{opacity:0;visibility:hidden}
+#ldr.done{opacity:0;visibility:hidden;pointer-events:none}
 .ldr-logo{width:160px;animation:lPul 1.3s ease-in-out infinite}
 @keyframes lPul{0%,100%{transform:scale(.95);opacity:.8}50%{transform:scale(1);opacity:1}}
 .ldr-bar{width:180px;height:3px;background:#e5e7eb;border-radius:3px;overflow:hidden}
@@ -1145,7 +1145,12 @@ footer{background:var(--dk);color:rgba(255,255,255,.5);padding:76px 0 28px}
 
 // ── LOADER ──
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('ldr').classList.add('done'), 1200);
+  const ldr = document.getElementById('ldr');
+  setTimeout(() => {
+    ldr.classList.add('done');
+    // fully remove from rendering after CSS transition (700ms) completes
+    setTimeout(() => { ldr.style.display = 'none'; }, 750);
+  }, 1200);
 });
 
 // ── LANGUAGE TOGGLE ──
